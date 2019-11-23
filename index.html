@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>A Multiplayer Game</title>
+    <style>
+      html, body { height:100%; margin:0; padding:0 }
+      strong { font-weight:bold; }
+      #zero { left:0; background:red }
+      #one { left:20%; background:orange}
+      #two { left:40%; background:yellow}
+      #three { left:60%; background:green}
+      #four { left:80%; background:blue}
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <div id="start_screen">
+        <div id="name_form">
+          <span>Name: </span>
+          <input type="text" id="name" onkeypress="AddKeyPress(event)" value="">
+          <input type="button" onclick="submit_name()" value="Submit Name">
+        </div>
+        <input type="button" style="display: none" id="begin" onclick="start_game()" value="Start Game">
+    </div>
+    <div id="scoreboard" style="display: none">
+        <h2>Current Scores</h2>
+        <div id="scores"></div>
+    </div>
+    <div id="results" style="display: none">
+        <h2>Chosen</h2>
+        <span id="round_num">Round Results</span>
+        <div id="chosen"></div>
+        <input type="button" id="continue" onclick="cont()" value="Continue">
+    </div>
+    <div id="info" style="display: none">
+      <span>Choose your card</span>
+    </div>
+  </body>
+  <script src="/static/game.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</html>
