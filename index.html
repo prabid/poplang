@@ -12,13 +12,17 @@
     </style>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
   </head>
   <body>
+    <div id="title">
+      <span>Poplang</span>
+    </div>
     <div id="start_screen">
         <div id="name_form">
           <span>Name: </span>
-          <input type="text" id="name" onkeypress="AddKeyPress(event)" value="">
-          <input type="button" onclick="submit_name()" value="Submit Name">
+          <input type="text" id="name" onkeypress="AddKeyPress(event)" value="" />
+          <input type="button" onclick="submit_name()" value="Submit Name" />
         </div>
         <input type="button" style="display: none" id="begin" onclick="start_game()" value="Start Game">
     </div>
@@ -30,7 +34,7 @@
         <h2>Chosen</h2>
         <span id="round_num">Round Results</span>
         <div id="chosen"></div>
-        <input type="button" id="continue" onclick="cont()" value="Continue">
+        <input type="button" id="continue" onclick="cont()" value="Continue" />
     </div>
     <div id="info" style="display: none">
       <span>Choose your card</span>
