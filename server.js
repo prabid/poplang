@@ -143,7 +143,6 @@ function calculate_scores() {
     let max_number = 1000000;
     for (let key in players) {
         let card_chosen = players[key]["card_chosen"];
-        console.log(card_chosen)
         chosen.push([players[key]["name"], card_chosen[0], card_chosen[1]]);
         if (card_chosen[1] < max_number) {
             max_number = card_chosen[1];

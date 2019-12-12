@@ -21,7 +21,7 @@
     <div id="start_screen">
         <div id="name_form">
           <span>Name: </span>
-          <input type="text" id="name" onkeypress="AddKeyPress(event)" value="" />
+          <input type="text" id="name" onkeypress="on_enter(event, submit_name)" value="" />
           <input type="button" onclick="submit_name()" value="Submit Name" />
         </div>
         <input type="button" style="display: none" id="begin" onclick="start_game()" value="Start Game">
@@ -38,6 +38,7 @@
     </div>
     <div id="info" style="display: none">
       <span>Choose your card</span>
+      <div id="cards"></div>
     </div>
   </body>
   <script src="/static/game.js"></script>

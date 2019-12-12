@@ -2,17 +2,17 @@ const NUMBER_OF_CARDS = 5;
 var socket = io();
 var socket_id = "";
 var player_name = ""
-var card_id = 0
+var card_id = 0;
 // change picked to results
 window.onload = function() {
     $("#name").focus();
 }
 
-function AddKeyPress(e) { 
+function on_enter(e, func) { 
     // look for window.event in case event isn't passed in
     e = e || window.event;
     if (e.keyCode == 13) {
-        submit_name();
+        func();
         return false;
     }
     return true;
@@ -30,6 +30,7 @@ function submit_name() {
     player_name = $("#name").val()
     socket.emit("new_player", player_name);
     $("#begin").show();
+    $("#begin").focus();
     $("#name_form").hide();
 }
 
@@ -67,6 +68,7 @@ socket.on("results", function(round_num, results, chosen) {
     if (round_num !== -1) {
         $("#results").show();
         $("#info").hide();
+        $("#continue").focus()
     }
 
     $("#round_num").text("Round " + round_num.toString() + " Results");
@@ -102,13 +104,16 @@ function cont() {
 socket.on("end_game", function() { 
     $("#scoreboard").hide();
     $("#info").hide();
-    $("#start_screen").show();
+    $("#results").hide();
+    $("#name_form").show();
 })
 
 // on receiving initial cards
 socket.on("player_cards", function(cards) {
+    $("#cards").empty()
     $("#info").show();
-    $("#start_screen").hide()
+    $("#begin").hide()
+
     for (let i = 0; i < NUMBER_OF_CARDS; ++i) {
         let button = document.createElement("input");
         button.type = "button";
@@ -117,6 +122,6 @@ socket.on("player_cards", function(cards) {
         button.onclick = function() {
             card_chosen(cards[i])
         }
-        $("#info").append(button)
+        $("#cards").append(button)
     }
 });
