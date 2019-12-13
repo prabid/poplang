@@ -15,6 +15,7 @@ input[type=button] {
 }
 
 table {
+  background-color: white;
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
@@ -61,4 +62,8 @@ td, th {
 
 #info {
   text-align: center;
+}
+
+#round_num {
+  font-size: 40px;
 }

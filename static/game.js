@@ -2,8 +2,7 @@ const NUMBER_OF_CARDS = 5;
 var socket = io();
 var socket_id = "";
 var player_name = ""
-var card_id = 0;
-// change picked to results
+
 window.onload = function() {
     $("#name").focus();
 }
@@ -38,18 +37,18 @@ function start_game() {
     socket.emit("start_game");
 }
 
-function card_chosen(cc_id) {
+function card_chosen(card_id) {
     if (document.getElementById("X") !== null) {
         return;
     }
-    var card_id = cc_id;
     socket.emit("card_chosen", card_id)
     document.getElementById(card_id).value = "X"
     document.getElementById(card_id).id = "X"
 }
 
 // on getting a new card, add to hand
-socket.on("new_card", function(new_card, value) {
+socket.on("new_card", function(round_num, new_card, value) {
+    $("#round_num").text("Round " + round_num.toString())
     $("#results").hide();
     $("#info").show();
     $("#value").text(value.toString())
@@ -65,7 +64,7 @@ socket.on("new_card", function(new_card, value) {
 socket.on("results", function(round_num, results, chosen) {
     $("#scores > tbody").empty();
     $("#chosen").empty();
-    $("#scoreboard").show();
+    $(".header").show();
     if (round_num !== -1) {
         $("#results").show();
         $("#info").hide();
@@ -105,10 +104,11 @@ function cont() {
 
 // Finish
 socket.on("end_game", function() { 
-    $("#scoreboard").hide();
+    $(".header").hide();
     $("#info").hide();
     $("#results").hide();
     $("#name_form").show();
+    $("#name").focus();
 })
 
 // on receiving initial cards
