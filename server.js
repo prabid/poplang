@@ -119,7 +119,7 @@ function begin_round() {
         let rand_num = Math.floor(Math.random() * LANG.length);
         new_card = [LANG[rand_num], rand_num]
         players[key]["cards"].push(new_card);
-        io.to(key).emit("new_card", new_card[0])
+        io.to(key).emit("new_card", new_card[0], value)
     }
 };
 

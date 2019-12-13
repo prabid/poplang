@@ -49,9 +49,10 @@ function card_chosen(cc_id) {
 }
 
 // on getting a new card, add to hand
-socket.on("new_card", function(new_card) {
+socket.on("new_card", function(new_card, value) {
     $("#results").hide();
     $("#info").show();
+    $("#value").text(value.toString())
     let button = document.getElementById("X");
     button.value = new_card;
     button.id = new_card;
@@ -62,7 +63,7 @@ socket.on("new_card", function(new_card) {
 
 // on "results", show current scores
 socket.on("results", function(round_num, results, chosen) {
-    $("#scores").empty();
+    $("#scores > tbody").empty();
     $("#chosen").empty();
     $("#scoreboard").show();
     if (round_num !== -1) {
@@ -73,13 +74,15 @@ socket.on("results", function(round_num, results, chosen) {
 
     $("#round_num").text("Round " + round_num.toString() + " Results");
     results.forEach(r => {
-        let score = document.createElement("p");
-        let score_text = $(document.createElement("span")).text(r[0] + " : " + r[1]);
-        if (r[0] === player_name) {
-            $(score_text).css("font-weight","Bold");
-        }
-        $(score).append(score_text)
-        $("#scores").append(score)
+        let score = document.createElement("tr");
+        let score_player = $(document.createElement("td")).text(r[0])
+        let score_points = $(document.createElement("td")).text(r[1]);
+        // if (r[0] === player_name) {
+        //     $(score_text).css("font-weight","Bold");
+        // }
+        $(score).append(score_player)
+        $(score).append(score_points)
+        $("#scores > tbody").append(score)
     });
 
     chosen.forEach(c => {
@@ -118,6 +121,7 @@ socket.on("player_cards", function(cards) {
         let button = document.createElement("input");
         button.type = "button";
         button.id = cards[i];
+        button.classList.add("card");
         button.value = cards[i];
         button.onclick = function() {
             card_chosen(cards[i])

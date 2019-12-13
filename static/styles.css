@@ -1,9 +1,64 @@
 body {
-  background-color: powderblue;
+  background-color: azure;
 }
+
 h1 {
   color: blue;
 }
+
 p {
   color: red;
+}
+
+input[type=button] {
+  cursor: pointer;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.spaced {
+  display: flex;
+  padding: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  border: solid;
+  background-color: white;
+}
+
+.header {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+}
+
+#round {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#game {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#info {
+  text-align: center;
 }
