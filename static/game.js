@@ -1,4 +1,4 @@
-const NUMBER_OF_CARDS = 5;
+const NUM_CARDS = 5;
 var socket = io();
 var socket_id = "";
 var player_name = ""
@@ -37,39 +37,51 @@ function start_game() {
     socket.emit("start_game");
 }
 
-function card_chosen(card_id) {
-    if (document.getElementById("X") !== null) {
+function card_chosen(event) {
+    if ($(".card[disabled]").length > 0) {
         return;
     }
-    socket.emit("card_chosen", card_id)
-    document.getElementById(card_id).value = "X"
-    document.getElementById(card_id).id = "X"
+    socket.emit("card_chosen", event.target.value)
+    $(event.target).prop("disabled", true)
 }
 
 // on getting a new card, add to hand
-socket.on("new_card", function(round_num, new_card, value) {
+socket.on("new_val", function(round_num, value) {
     $("#round_num").text("Round " + round_num.toString())
     $("#results").hide();
     $("#info").show();
-    $("#value").text(value.toString())
-    let button = document.getElementById("X");
-    button.value = new_card;
-    button.id = new_card;
-    button.onclick = function() {
-        card_chosen(new_card)
-    }
+    $("body").keydown(function(e) {
+        if ($(":focus[id*='card-']").length === 0) {
+            $("#card-0").focus();
+            return;
+        }
+        let focus_num = Number($(":focus").attr("id").replace('card-', ''));
+        if (e.keyCode == 37) { // left
+          $("#card-" + ((focus_num + NUM_CARDS - 1) % NUM_CARDS).toString()).focus()
+        }
+        else if (e.keyCode == 39) { // right
+          $("#card-" + ((focus_num + 1) % NUM_CARDS).toString()).focus()
+        }
+      });
+    $("#value").text(value.toString());
 })
 
 // on "results", show current scores
-socket.on("results", function(round_num, results, chosen) {
+socket.on("results", function(round_num, results, chosen, new_card) {
     $("#scores > tbody").empty();
     $("#chosen").empty();
     $(".header").show();
+    // TODO - remove if
     if (round_num !== -1) {
         $("#results").show();
         $("#info").hide();
+        $("body").off("keydown");
         $("#continue").focus()
     }
+
+    let button = $(".card[disabled]");
+    button.val(new_card);
+    button.prop("disabled", false);
 
     $("#round_num").text("Round " + round_num.toString() + " Results");
     results.forEach(r => {
@@ -105,26 +117,24 @@ function cont() {
 // Finish
 socket.on("end_game", function() { 
     $(".header").hide();
-    $("#info").hide();
     $("#results").hide();
     $("#name_form").show();
+    $("#cards").empty()
     $("#name").focus();
 })
 
 // on receiving initial cards
 socket.on("player_cards", function(cards) {
-    $("#cards").empty()
-    $("#info").show();
     $("#begin").hide()
 
-    for (let i = 0; i < NUMBER_OF_CARDS; ++i) {
+    for (let i = 0; i < NUM_CARDS; ++i) {
         let button = document.createElement("input");
         button.type = "button";
-        button.id = cards[i];
+        button.id = "card-" + i.toString();
         button.classList.add("card");
         button.value = cards[i];
         button.onclick = function() {
-            card_chosen(cards[i])
+            card_chosen(event)
         }
         $("#cards").append(button)
     }

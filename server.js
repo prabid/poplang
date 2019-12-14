@@ -99,13 +99,13 @@ function begin_game() {
     // grab random lines from file and put in dictionary
     for (let key in players) {
         cards = [];
-        for (let i = 0; i < NUM_CARDS - 1; ++i) {
+        for (let i = 0; i < NUM_CARDS; ++i) {
             let rand_num = Math.floor(Math.random() * LANG.length);
             cards.push([LANG[rand_num], rand_num]);
         }
         players[key]["cards"] = cards;
 
-        io.to(key).emit("player_cards", players[key]["cards"].map(c => c[0]).concat(["X"]));
+        io.to(key).emit("player_cards", players[key]["cards"].map(c => c[0]));
     }
     begin_round();
 }
@@ -114,13 +114,7 @@ function begin_round() {
     // "value" is random, or are parameters required?
     // deal out one card
     value = Math.ceil(Math.random() * 10);
-    for (let key in players) {
-        // TODO - Emit to all players
-        let rand_num = Math.floor(Math.random() * LANG.length);
-        new_card = [LANG[rand_num], rand_num]
-        players[key]["cards"].push(new_card);
-        io.to(key).emit("new_card", round_num, new_card[0], value)
-    }
+    io.sockets.emit("new_val", round_num, value);
 };
 
 function end_round() {
@@ -129,7 +123,12 @@ function end_round() {
     for (let key in players) {
         scores.push([players[key]["name"], players[key]["score"]]);
     }
-    io.sockets.emit("results", round_num, scores, chosen);
+    for (let key in players) {
+        let rand_num = Math.floor(Math.random() * LANG.length);
+        new_card = [LANG[rand_num], rand_num]
+        players[key]["cards"].push(new_card);
+        io.to(key).emit("results", round_num, scores, chosen, new_card[0])
+    }
     round_num += 1;
     num_chosen = 0;
 };
