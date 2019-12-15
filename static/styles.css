@@ -1,5 +1,7 @@
 body {
   background-color: azure;
+  font-family: Tahoma, Geneva, sans-serif;
+  margin: 0;
 }
 
 h1 {
@@ -10,13 +12,13 @@ p {
   color: red;
 }
 
-input[type=button] {
+button {
   cursor: pointer;
+  font-family: Tahoma, Geneva, sans-serif;
 }
 
 table {
   background-color: white;
-  font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
@@ -27,9 +29,19 @@ td, th {
   padding: 8px;
 }
 
+.btn {
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.btn:focus {
+  outline: none;
+}
+
 .spaced {
   display: flex;
-  padding: 20px;
+  padding: 30px;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -40,12 +52,63 @@ td, th {
   border-radius: 8px;
   border: solid;
   background-color: white;
+  font-size: 18px;
+  border-width: 2px;
+}
+
+.card:focus {
+  outline: none;
+  border-color: blue;
 }
 
 .header {
   display: flex;
   position: relative;
   justify-content: flex-end;
+  padding: 20px;
+}
+
+.title {
+  height: 50px;
+  background-color: white;
+  border-bottom: 2px solid black;
+}
+
+.titleText {
+  line-height: 50px;
+  vertical-align: middle;
+  padding-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.nameForm {
+  margin: 0 auto;
+  width: 50%;
+}
+
+.name {
+  padding-bottom: 5px;
+}
+
+.chosen {
+  padding-top: 10px;
+  padding-bottom: 15px;
+  font-size: 20px;
+}
+
+.chosenItem {
+  display: flex;
+  padding: 5px;
+}
+
+.chosenHeader {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.chosenName, .chosenWord, .chosenPop {
+  width: 33%;
 }
 
 #round {
@@ -58,12 +121,26 @@ td, th {
 #game {
   width: 80%;
   margin: 0 auto;
+  padding-top: 20px;
 }
 
 #info {
   text-align: center;
+  font-size: 20px;
 }
 
 #round_num {
-  font-size: 40px;
+  font-size: 50px;
+}
+
+#results {
+  left: 50%;
+  position: relative;
+  transform: translateX(-50%);
+  width: 500px;
+  text-align: center;
+}
+
+#start_screen {
+  text-align: center;
 }

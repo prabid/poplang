@@ -6,17 +6,19 @@
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
   </head>
   <body>
-    <div id="title">
-      <span>Poplang</span>
+    <div class="title">
+      <span class="titleText">Poplang</span>
     </div>
     <div id="game">
       <div id="start_screen">
-          <div id="name_form">
-            <span>Name: </span>
-            <input type="text" id="name" onkeypress="on_enter(event, submit_name)" value="" />
-            <input type="button" onclick="submit_name()" value="Submit Name" />
+          <div class="nameForm">
+            <div class="name">
+              <span>Name: </span>
+              <input type="text" id="name" onkeypress="on_enter(event, submit_name)" value="" />
+            </div>
+            <button class="btn" onclick="submit_name()">Join Game</button>
           </div>
-          <input type="button" style="display: none" id="begin" onclick="start_game()" value="Start Game">
+          <button class="btn" style="display: none" id="begin" onclick="start_game()">Start Game</button>
       </div>
       <div class="header" style="display: none">
         <div id="round">
@@ -36,10 +38,11 @@
         </div>
     </div>
       <div id="results" style="display: none">
-          <h2>Chosen</h2>
-          <!-- <span id="round_num">Round Results</span> -->
-          <div id="chosen"></div>
-          <input type="button" id="continue" onclick="cont()" value="Continue" />
+          <div class="chosenHeader">
+            <span>Chosen</span>
+          </div>
+          <div class="chosen"></div>
+          <button class="btn" id="continue" onclick="cont()">Continue</button>
       </div>
       <div id="info" style="display: none">
         <div>Current round is worth <span id="value">0</span> points</div>

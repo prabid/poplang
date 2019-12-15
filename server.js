@@ -61,6 +61,7 @@ io.on("connection", function(socket) {
 
   socket.on("card_chosen", function(card_chosen) {
     // check to make sure they actually have that card, and that they haven"t already submitted a card
+    // TODO - change to card_chosen
     if (players[socket.id]["cards"].length != NUM_CARDS) {
         return;
     }

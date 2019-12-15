@@ -30,7 +30,7 @@ function submit_name() {
     socket.emit("new_player", player_name);
     $("#begin").show();
     $("#begin").focus();
-    $("#name_form").hide();
+    $(".nameForm").hide();
 }
 
 function start_game() {
@@ -51,6 +51,9 @@ socket.on("new_val", function(round_num, value) {
     $("#results").hide();
     $("#info").show();
     $("body").keydown(function(e) {
+        if (e.keyCode !== 37 && e.keyCode !== 39) {
+            return;
+        }
         if ($(":focus[id*='card-']").length === 0) {
             $("#card-0").focus();
             return;
@@ -69,7 +72,7 @@ socket.on("new_val", function(round_num, value) {
 // on "results", show current scores
 socket.on("results", function(round_num, results, chosen, new_card) {
     $("#scores > tbody").empty();
-    $("#chosen").empty();
+    $(".chosen").empty();
     $(".header").show();
     // TODO - remove if
     if (round_num !== -1) {
@@ -97,16 +100,31 @@ socket.on("results", function(round_num, results, chosen, new_card) {
     });
 
     chosen.forEach(c => {
-        let chose = document.createElement("p")
-        let chose_text = $(document.createElement("span")).text(c[0] + " : " + c[1] + " (" + c[2] + ")");
+        let chose = document.createElement("div");
+        chose.classList.add("chosenItem")
+
+        let chose_name = document.createElement("div");
+        chose_name.append(document.createElement("p").appendChild(document.createTextNode(c[0])));
+        chose_name.classList.add("chosenName")
+
+        let chose_word = document.createElement("div");
+        chose_word.append(document.createElement("p").appendChild(document.createTextNode(c[1])));
+        chose_word.classList.add("chosenWord")
+
+        let chose_pop = document.createElement("div");
+        chose_pop.append(document.createElement("p").appendChild(document.createTextNode(c[2])));
+        chose_pop.classList.add("chosenPop")
+
         if (c[0] === player_name) {
-            $(chose_text).css("font-weight","Bold");
+            $(chose_name).css("font-weight","Bold");
         }
-        $(chose).append(chose_text)
-        if ($("#chosen").children().length === 0) {
-            $(chose).append($(document.createElement("strong")).text("**Winner**"));
-        }
-        $("#chosen").append(chose)
+        $(chose).append(chose_name);
+        $(chose).append(chose_word)
+        $(chose).append(chose_pop)
+        // if ($(".chosen").children().length === 0) {
+        //     $(chose).append($(document.createElement("strong")).text("**Winner**"));
+        // }
+        $(".chosen").append(chose)
     });
 })
 
@@ -118,7 +136,7 @@ function cont() {
 socket.on("end_game", function() { 
     $(".header").hide();
     $("#results").hide();
-    $("#name_form").show();
+    $(".nameForm").show();
     $("#cards").empty()
     $("#name").focus();
 })
@@ -128,11 +146,11 @@ socket.on("player_cards", function(cards) {
     $("#begin").hide()
 
     for (let i = 0; i < NUM_CARDS; ++i) {
-        let button = document.createElement("input");
-        button.type = "button";
+        let button = document.createElement("button");
         button.id = "card-" + i.toString();
         button.classList.add("card");
         button.value = cards[i];
+        button.appendChild(document.createTextNode(cards[i]));
         button.onclick = function() {
             card_chosen(event)
         }
