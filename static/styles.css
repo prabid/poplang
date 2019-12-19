@@ -84,6 +84,18 @@ td, th {
   font-size: 20px;
 }
 
+#end {
+  line-height: 50px;
+  vertical-align: middle;
+  position: absolute;
+  padding: 0 5px;
+  right: 0;
+  margin-right: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .nameForm {
   margin: 0 auto;
   width: 50%;
@@ -141,6 +153,7 @@ td, th {
   width: 90%;
   margin: 0 auto;
   padding-top: 20px;
+  padding-bottom: 50px;
 }
 
 #info {
@@ -150,6 +163,7 @@ td, th {
 
 #round_num {
   font-size: 50px;
+  font-weight: bold;
 }
 
 #results {
@@ -162,11 +176,4 @@ td, th {
 
 #start_screen {
   text-align: center;
-}
-
-#end {
-  margin: 0 auto;
-  padding-top: 200px;
-  padding-bottom: 50px;
-  display: table;
 }

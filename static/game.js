@@ -2,7 +2,6 @@ const NUM_CARDS = 5;
 var socket = io();
 var socket_id = "";
 var player_name = ""
-// todo: style button size and start screen size / padding
 
 window.onload = function() {
     $("#name").focus();
@@ -24,13 +23,15 @@ socket.on("received_new_player", (accepted) => {
         alert("Sorry, the game is in progress or username is incorrect");
         $("#end").show();
     }
+    else {
+        $("#begin").show();
+        $("#begin").focus();
+    }
 });
 
 function submit_name() {
     player_name = $("#name").val()
     socket.emit("new_player", player_name);
-    $("#begin").show();
-    $("#begin").focus();
     $(".nameForm").hide();
 }
 
@@ -145,16 +146,18 @@ function cont() {
 
 function terminate() {
     socket.emit("terminate");
-}
-
-// Finish
-socket.on("end_game", function() { 
     $(".header").hide();
     $("#results").hide();
     $(".nameForm").show();
     $("#name").focus();
     $("#end").hide();
     $("#info").hide();
+}
+
+// Finish
+socket.on("end_game", function(winner) {
+    $("#round_num").text(winner + " won the game!");
+    $("#results").hide();
 })
 
 // on receiving initial cards

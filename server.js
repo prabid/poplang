@@ -49,6 +49,10 @@ io.on("connection", function(socket) {
   });
 
   socket.on("start_game", function() {
+    if (!validate_player(socket.id)) {
+        socket.emit("err", "not a current player in the game");
+        return;
+    }
     in_game = true;
     // send everyone the players
     let scores = []
@@ -62,6 +66,10 @@ io.on("connection", function(socket) {
   });
 
   socket.on("card_chosen", function(card_chosen) {
+    if (!validate_player(socket.id)) {
+        socket.emit("err", "not a current player in the game");
+        return;
+    }
     // check to make sure they actually have that card, and that they haven"t already submitted a card
     if (players[socket.id]["cards"].length != NUM_CARDS) {
         return;
@@ -88,6 +96,11 @@ io.on("connection", function(socket) {
   });
 
   socket.on("continue", function() {
+    if (!validate_player(socket.id)) {
+        socket.emit("err", "not a current player in the game");
+        return;
+    }
+
     if (round_num < NUM_ROUNDS) {
         begin_round();
     }
@@ -97,9 +110,17 @@ io.on("connection", function(socket) {
   });
 
   socket.on("terminate", function() {
-    end_game();
+    in_game = false;
+    num_players = 0;
+    round_num = 0;
+    players = {};
+    num_chosen = 0;
   });
 });
+
+function validate_player(socket_id) {
+    return socket_id in players;
+}
 
 function begin_game() {
     // grab random lines from file and put in dictionary
@@ -167,12 +188,13 @@ function calculate_scores() {
 
 function end_game() {
     // reset all values accordingly
+    let winner = "";
+    let max_score = 1000000;
     for (let key in players) {
-        io.to(key).emit("end_game");
+        if (players[key]["score"] < max_score) {
+            winner = players[key]["name"]
+            max_score = players[key]["score"];
+        }
     }
-    in_game = false;
-    num_players = 0;
-    round_num = 0;
-    players = {};
-    num_chosen = 0;
+    io.sockets.emit("end_game", winner);
 }

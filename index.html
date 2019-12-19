@@ -8,6 +8,7 @@
   <body>
     <div class="title">
       <span class="titleText">Poplang</span>
+      <span id="end" style="display: none" onclick="terminate()">End Game</span>
     </div>
     <div id="game">
       <div id="start_screen">
@@ -46,9 +47,6 @@
         <div>Current round is worth <span id="value">0</span> points</div>
         <span>Choose your card</span>
         <div id="cards" class="spaced"></div>
-      </div>
-      <div id="end" style="display: none">
-        <button class="btn gameBtn" id="end_game" onclick="terminate()">End Game</button>
       </div>
     </div>
   </body>
