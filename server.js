@@ -55,13 +55,14 @@ io.on("connection", function(socket) {
     for (let key in players) {
         scores.push([players[key]["name"], players[key]["score"]]);
     }
-    io.sockets.emit("results", -1, scores, []);
+    for (let key in players) {
+        io.to(key).emit("results", -1, scores, [], undefined);
+    }
     begin_game();
   });
 
   socket.on("card_chosen", function(card_chosen) {
     // check to make sure they actually have that card, and that they haven"t already submitted a card
-    // TODO - change to card_chosen
     if (players[socket.id]["cards"].length != NUM_CARDS) {
         return;
     }
@@ -94,6 +95,10 @@ io.on("connection", function(socket) {
         end_game();
     }
   });
+
+  socket.on("terminate", function() {
+    end_game();
+  });
 });
 
 function begin_game() {
@@ -115,7 +120,9 @@ function begin_round() {
     // "value" is random, or are parameters required?
     // deal out one card
     value = Math.ceil(Math.random() * 10);
-    io.sockets.emit("new_val", round_num, value);
+    for (let key in players) {
+        io.to(key).emit("new_val", round_num + 1, value);
+    }
 };
 
 function end_round() {
@@ -128,7 +135,7 @@ function end_round() {
         let rand_num = Math.floor(Math.random() * LANG.length);
         new_card = [LANG[rand_num], rand_num]
         players[key]["cards"].push(new_card);
-        io.to(key).emit("results", round_num, scores, chosen, new_card[0])
+        io.to(key).emit("results", round_num + 1, scores, chosen, new_card[0])
     }
     round_num += 1;
     num_chosen = 0;
@@ -160,7 +167,9 @@ function calculate_scores() {
 
 function end_game() {
     // reset all values accordingly
-    io.sockets.emit("end_game")
+    for (let key in players) {
+        io.to(key).emit("end_game");
+    }
     in_game = false;
     num_players = 0;
     round_num = 0;

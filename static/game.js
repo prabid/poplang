@@ -2,6 +2,7 @@ const NUM_CARDS = 5;
 var socket = io();
 var socket_id = "";
 var player_name = ""
+// todo: style button size and start screen size / padding
 
 window.onload = function() {
     $("#name").focus();
@@ -20,8 +21,8 @@ function on_enter(e, func) {
 socket.on("received_new_player", (accepted) => {
     socket_id = socket.id;
     if (!accepted) {
-        document.body.innerHTML = "";
         alert("Sorry, the game is in progress or username is incorrect");
+        $("#end").show();
     }
 });
 
@@ -45,7 +46,7 @@ function card_chosen(event) {
     $(event.target).prop("disabled", true)
 }
 
-// on getting a new card, add to hand
+// get value for round
 socket.on("new_val", function(round_num, value) {
     $("#round_num").text("Round " + round_num.toString())
     $("#results").hide();
@@ -72,32 +73,39 @@ socket.on("new_val", function(round_num, value) {
 // on "results", show current scores
 socket.on("results", function(round_num, results, chosen, new_card) {
     $("#scores > tbody").empty();
-    $(".chosen").empty();
-    $(".header").show();
-    // TODO - remove if
     if (round_num !== -1) {
+        $(".chosen").empty();
+        $("#end").show();
         $("#results").show();
         $("#info").hide();
         $("body").off("keydown");
-        $("#continue").focus()
-    }
+        $("#continue").focus();
 
-    let button = $(".card[disabled]");
-    button.val(new_card);
-    button.prop("disabled", false);
+        let button = $(".card[disabled]");
+        button.empty();
+        button.val(new_card);
+        button.append(document.createTextNode(new_card));
+        button.prop("disabled", false);
+    }
 
     $("#round_num").text("Round " + round_num.toString() + " Results");
     results.forEach(r => {
         let score = document.createElement("tr");
         let score_player = $(document.createElement("td")).text(r[0])
         let score_points = $(document.createElement("td")).text(r[1]);
-        // if (r[0] === player_name) {
-        //     $(score_text).css("font-weight","Bold");
-        // }
+        if (r[0] === player_name) {
+            $(score_player).css("font-weight","Bold");
+        }
         $(score).append(score_player)
         $(score).append(score_points)
         $("#scores > tbody").append(score)
     });
+
+    let winner = $(".winner")
+    winner.empty();
+    if (chosen.length > 0) {
+        winner.append(document.createTextNode(chosen[0][0]))
+    }
 
     chosen.forEach(c => {
         let chose = document.createElement("div");
@@ -121,15 +129,22 @@ socket.on("results", function(round_num, results, chosen, new_card) {
         $(chose).append(chose_name);
         $(chose).append(chose_word)
         $(chose).append(chose_pop)
-        // if ($(".chosen").children().length === 0) {
-        //     $(chose).append($(document.createElement("strong")).text("**Winner**"));
-        // }
+
         $(".chosen").append(chose)
     });
+
+    // prevents lag on first round
+    if (round_num !== -1) {
+        $(".header").show();
+    }
 })
 
 function cont() {
     socket.emit("continue");
+}
+
+function terminate() {
+    socket.emit("terminate");
 }
 
 // Finish
@@ -137,14 +152,14 @@ socket.on("end_game", function() {
     $(".header").hide();
     $("#results").hide();
     $(".nameForm").show();
-    $("#cards").empty()
     $("#name").focus();
+    $("#end").hide();
+    $("#info").hide();
 })
 
 // on receiving initial cards
 socket.on("player_cards", function(cards) {
-    $("#begin").hide()
-
+    $("#cards").empty()
     for (let i = 0; i < NUM_CARDS; ++i) {
         let button = document.createElement("button");
         button.id = "card-" + i.toString();
@@ -156,4 +171,8 @@ socket.on("player_cards", function(cards) {
         }
         $("#cards").append(button)
     }
+    $("#begin").hide();
+    $(".chosen").empty();
+    $("#end").show();
+    $(".header").show();
 });

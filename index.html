@@ -14,18 +14,18 @@
           <div class="nameForm">
             <div class="name">
               <span>Name: </span>
-              <input type="text" id="name" onkeypress="on_enter(event, submit_name)" value="" />
+              <input class="nameInput" type="text" id="name" onkeypress="on_enter(event, submit_name)" value="" />
             </div>
-            <button class="btn" onclick="submit_name()">Join Game</button>
+            <button class="btn startBtn" onclick="submit_name()">Join Game</button>
           </div>
-          <button class="btn" style="display: none" id="begin" onclick="start_game()">Start Game</button>
+          <button class="btn startBtn" style="display: none" id="begin" onclick="start_game()">Start Game</button>
       </div>
       <div class="header" style="display: none">
         <div id="round">
           <span id="round_num">Round 0</span>
         </div>
         <div id="scoreboard">
-            <h2>Current Scores</h2>
+            <p class="scoresHeader">Current Scores</p>
             <table id="scores">
               <thead>
                 <tr>
@@ -38,16 +38,17 @@
         </div>
     </div>
       <div id="results" style="display: none">
-          <div class="chosenHeader">
-            <span>Chosen</span>
-          </div>
-          <div class="chosen"></div>
-          <button class="btn" id="continue" onclick="cont()">Continue</button>
+        <p class="chosenHeader">Winner: <span class="winner"></span></p>
+        <div class="chosen"></div>
+        <button class="btn gameBtn" id="continue" onclick="cont()">Continue</button>
       </div>
       <div id="info" style="display: none">
         <div>Current round is worth <span id="value">0</span> points</div>
         <span>Choose your card</span>
         <div id="cards" class="spaced"></div>
+      </div>
+      <div id="end" style="display: none">
+        <button class="btn gameBtn" id="end_game" onclick="terminate()">End Game</button>
       </div>
     </div>
   </body>
