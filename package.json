@@ -1,9 +1,10 @@
 {
   "name": "game",
   "version": "1.0.0",
-  "description": "multiplayer web query based poker game",
+  "description": "Multiplayer language based web game",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Philip Rabideau",
@@ -12,5 +13,8 @@
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
     "xmlhttprequest": "^1.8.0"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }

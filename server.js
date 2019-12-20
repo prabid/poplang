@@ -18,8 +18,8 @@ server.listen(5000, function() {
   console.log("Starting server on port 5000");
 });
 
-const NUM_ROUNDS = 4
-const NUM_CARDS = 5
+const NUM_ROUNDS = 4;
+const NUM_CARDS = 5;
 const LANG = get_lang();
 var players = {};
 var in_game = false;
@@ -30,7 +30,7 @@ var value = 0;
 
 function get_lang() {
     // grab random lines from file and put in dictionary
-    return fs.readFileSync(path.resolve("./") + "/input/google-10000-english.txt", "utf-8").split("\n")
+    return fs.readFileSync(path.resolve("./") + "/input/google-10000-english.txt", "utf-8").split("\n");
 }
 
 io.on("connection", function(socket) {
@@ -44,8 +44,16 @@ io.on("connection", function(socket) {
     if (!in_game && !exists) {
         num_players += 1;
         players[socket.id] = {"score": 0, "name": new_player};
+        socket.emit("received_new_player", true);
+        player_names = [];
+        for (let key in players) {
+            player_names.push(players[key]["name"]);
+        }
+        io.sockets.emit("current_players", player_names);
     }
-    socket.emit("received_new_player", !in_game && !exists);
+    else {
+        socket.emit("received_new_player", false);
+    }
   });
 
   socket.on("start_game", function() {
@@ -154,9 +162,9 @@ function end_round() {
     }
     for (let key in players) {
         let rand_num = Math.floor(Math.random() * LANG.length);
-        new_card = [LANG[rand_num], rand_num]
+        new_card = [LANG[rand_num], rand_num];
         players[key]["cards"].push(new_card);
-        io.to(key).emit("results", round_num + 1, scores, chosen, new_card[0])
+        io.to(key).emit("results", round_num + 1, scores, chosen, new_card[0]);
     }
     round_num += 1;
     num_chosen = 0;
@@ -192,7 +200,7 @@ function end_game() {
     let max_score = 1000000;
     for (let key in players) {
         if (players[key]["score"] < max_score) {
-            winner = players[key]["name"]
+            winner = players[key]["name"];
             max_score = players[key]["score"];
         }
     }

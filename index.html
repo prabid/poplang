@@ -11,6 +11,9 @@
       <span id="end" style="display: none" onclick="terminate()">End Game</span>
     </div>
     <div id="game">
+      <div id="noJoin" style="display: none">
+        <span>Sorry, the game is in progress or username is incorrect</span>
+      </div>
       <div id="start_screen">
           <div class="nameForm">
             <div class="name">
@@ -19,7 +22,13 @@
             </div>
             <button class="btn startBtn" onclick="submit_name()">Join Game</button>
           </div>
-          <button class="btn startBtn" style="display: none" id="begin" onclick="start_game()">Start Game</button>
+          <div id="begin" style="display: none">
+            <div id="waitingRoom">
+              <p id="waitingRoomHeader">Current Players</p>
+              <div id="waitingRoomPlayers"></div>
+            </div>
+            <button class="btn startBtn" onclick="start_game()">Start Game</button>
+          </div>
       </div>
       <div class="header" style="display: none">
         <div id="round">

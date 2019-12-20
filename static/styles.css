@@ -166,6 +166,12 @@ td, th {
   font-weight: bold;
 }
 
+#noJoin {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
+
 #results {
   left: 50%;
   position: relative;
@@ -176,4 +182,15 @@ td, th {
 
 #start_screen {
   text-align: center;
+}
+
+#waitingRoomHeader {
+  font-size: 35px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+#waitingRoomPlayers {
+  padding-bottom: 10px;
+  font-size: 25px;
 }
