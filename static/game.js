@@ -165,9 +165,12 @@ function terminate() {
     $("#end").hide();
     $("#info").hide();
     $("#noJoin").hide();
+
+    // remove event listener
+    $("body").off("keydown");
 }
 
-// Finish
+// finish
 socket.on("end_game", function(winner) {
     $("#round_num").text(winner + " won the game!");
     $("#results").hide();

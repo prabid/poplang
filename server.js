@@ -197,9 +197,9 @@ function calculate_scores() {
 function end_game() {
     // reset all values accordingly
     let winner = "";
-    let max_score = 1000000;
+    let max_score = 0;
     for (let key in players) {
-        if (players[key]["score"] < max_score) {
+        if (players[key]["score"] > max_score) {
             winner = players[key]["name"];
             max_score = players[key]["score"];
         }

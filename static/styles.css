@@ -144,13 +144,14 @@ td, th {
 
 #round {
   position: absolute;
+  max-width: 600px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
 #game {
-  width: 90%;
+  width: 98%;
   margin: 0 auto;
   padding-top: 20px;
   padding-bottom: 50px;
@@ -159,6 +160,8 @@ td, th {
 #info {
   text-align: center;
   font-size: 20px;
+  margin: 0 auto;
+  width: 90%;
 }
 
 #round_num {
