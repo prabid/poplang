@@ -197,3 +197,9 @@ td, th {
   padding-bottom: 10px;
   font-size: 25px;
 }
+
+.dropdown {
+  display: block;
+  margin: 10px auto;
+  font-size: 18px;
+}

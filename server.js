@@ -1,4 +1,4 @@
-// Dependencies
+// dependencies
 var fs = require("fs");
 var express = require("express");
 var http = require("http");
@@ -9,28 +9,39 @@ var server = http.Server(app);
 var io = socketIO(server);
 app.set("port", process.env.PORT || 5000);
 app.use("/static", express.static(__dirname + "/static"));
-// Routing
+// routing
 app.get("/", function(request, response) {
   response.sendFile(path.join(__dirname, "index.html"));
 });
-// Starts the server.
+// starts the server.
 server.listen(process.env.PORT || 5000, function() {
   console.log("Starting server on port 5000");
 });
 
 const NUM_ROUNDS = 4;
 const NUM_CARDS = 5;
-const LANG = get_lang();
+const GOOGLE_LANG = set_lang("google-1000.txt");
+const ENGLISH_LANG = set_lang("english-10000.txt");
 var players = {};
 var in_game = false;
+var game_type = "";
 var num_players = 0;
 var round_num = 0;
 var num_chosen = 0;
 var value = 0;
 
-function get_lang() {
+function set_lang(file) {
     // grab random lines from file and put in dictionary
-    return fs.readFileSync(path.resolve("./") + "/input/google-10000-english.txt", "utf-8").split("\n");
+    return fs.readFileSync(path.resolve("./") + "/input/" + file, "utf-8").split("\n");
+}
+
+function get_lang() {
+    if (game_type == "english") {
+        return ENGLISH_LANG;
+    }
+    else if (game_type == "google") {
+        return GOOGLE_LANG;
+    }
 }
 
 io.on("connection", function(socket) {
@@ -56,7 +67,7 @@ io.on("connection", function(socket) {
     }
   });
 
-  socket.on("start_game", function() {
+  socket.on("start_game", function(type) {
     if (!validate_player(socket.id)) {
         socket.emit("err", "not a current player in the game");
         return;
@@ -70,6 +81,7 @@ io.on("connection", function(socket) {
     for (let key in players) {
         io.to(key).emit("results", -1, scores, [], undefined);
     }
+    game_type = type;
     begin_game();
   });
 
@@ -135,8 +147,8 @@ function begin_game() {
     for (let key in players) {
         cards = [];
         for (let i = 0; i < NUM_CARDS; ++i) {
-            let rand_num = Math.floor(Math.random() * LANG.length);
-            cards.push([LANG[rand_num], rand_num]);
+            let rand_num = Math.floor(Math.random() * get_lang().length);
+            cards.push([get_lang()[rand_num], rand_num]);
         }
         players[key]["cards"] = cards;
 
@@ -161,8 +173,8 @@ function end_round() {
         scores.push([players[key]["name"], players[key]["score"]]);
     }
     for (let key in players) {
-        let rand_num = Math.floor(Math.random() * LANG.length);
-        new_card = [LANG[rand_num], rand_num];
+        let rand_num = Math.floor(Math.random() * get_lang().length);
+        new_card = [get_lang()[rand_num], rand_num];
         players[key]["cards"].push(new_card);
         io.to(key).emit("results", round_num + 1, scores, chosen, new_card[0]);
     }

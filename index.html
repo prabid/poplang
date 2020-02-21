@@ -27,7 +27,13 @@
               <p id="waitingRoomHeader">Current Players</p>
               <div id="waitingRoomPlayers"></div>
             </div>
-            <button class="btn startBtn" onclick="start_game()">Start Game</button>
+            <div>
+              <select class="dropdown" id="gameType">
+                <option value="english">English</option>
+                <option value="google">Google</option>
+              </select>
+              <button class="btn startBtn" onclick="start_game()">Start Game</button>
+            </div>
           </div>
       </div>
       <div class="header" style="display: none">

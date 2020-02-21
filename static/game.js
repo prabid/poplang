@@ -48,7 +48,7 @@ function submit_name() {
 }
 
 function start_game() {
-    socket.emit("start_game");
+    socket.emit("start_game", $("#gameType :selected").val());
 }
 
 function card_chosen(event) {
