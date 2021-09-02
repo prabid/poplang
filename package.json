@@ -10,11 +10,15 @@
   "author": "Philip Rabideau",
   "license": "ISC",
   "dependencies": {
+    "eslint": "^7.32.0",
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
     "xmlhttprequest": "^1.8.0"
   },
   "engines": {
     "node": "12.x"
+  },
+  "devDependencies": {
+    "prettier": "2.3.2"
   }
 }

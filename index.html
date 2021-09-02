@@ -11,10 +11,13 @@
       <span id="end" style="display: none" onclick="terminate()">End Game</span>
     </div>
     <div id="game">
-      <div id="noJoin" style="display: none">
-        <span>Sorry, the game is in progress or username is incorrect</span>
+      <div class="noJoin" id="nameAlreadyTaken" style="display: none">
+        <span>That username is already taken</span>
       </div>
-      <div id="start_screen">
+      <div class="noJoin" id="alreadyInProgress" style="display: none">
+        <span>Sorry, the game is already in progress</span>
+      </div>
+      <div id="startScreen">
           <div class="nameForm">
             <div class="name">
               <span>Name: </span>
@@ -36,9 +39,9 @@
             </div>
           </div>
       </div>
-      <div class="header" style="display: none">
+      <div class="scoreboardHeader" style="display: none">
         <div id="round">
-          <span id="round_num">Round 0</span>
+          <span id="roundNum"></span>
         </div>
         <div id="scoreboard">
             <p class="scoresHeader">Current Scores</p>
@@ -54,7 +57,7 @@
         </div>
     </div>
       <div id="results" style="display: none">
-        <p class="chosenHeader">Winner: <span class="winner"></span></p>
+        <p class="chosenHeader">Winner: <span class="winnerName"></span></p>
         <div class="chosen"></div>
         <button class="btn gameBtn" id="continue" onclick="cont()">Continue</button>
       </div>

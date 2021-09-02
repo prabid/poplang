@@ -63,7 +63,7 @@ td, th {
   border-color: blue;
 }
 
-.header {
+.scoreboardHeader {
   display: flex;
   position: relative;
   justify-content: flex-end;
@@ -142,6 +142,12 @@ td, th {
   width: 50%;
 }
 
+.noJoin {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
+
 #round {
   position: absolute;
   max-width: 600px;
@@ -164,15 +170,9 @@ td, th {
   width: 90%;
 }
 
-#round_num {
+#roundNum {
   font-size: 50px;
   font-weight: bold;
-}
-
-#noJoin {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
 }
 
 #results {
@@ -183,7 +183,7 @@ td, th {
   text-align: center;
 }
 
-#start_screen {
+#startScreen {
   text-align: center;
 }
 
